@@ -49,6 +49,7 @@ app.post('/api/articles/:name/add-comment', (req, res) => {
 app.use(express.json()); //to get the json data in json fomart otherwise it will show us undefined
 app.use(require('./router/Data')); //we link the router files to make our route easy
 app.use(require('./router/addTask'));
+app.use(require('./router/editTask'));
 
 const PORT= process.env.PORT; //for port number which hidden in env file
 

@@ -4,7 +4,7 @@ const allData = require('../middleware/allData')
 
 
 router.get('/data',allData,(req,res)=>{
-    console.log('Hello My Home');
+    console.log('Data displayed on the webpage');
     res.send(req.list);
 })
 

@@ -1,38 +1,12 @@
 const express = require('express');
 const router = express.Router();
-
-require('../db/conn');
-const Task = require("../model/addTaskSchema");
+const addTaskMiddleWare = require("../middleware/addTaskMiddleWare");
 
 
-
-router.post('/addTask', async (req,res)=>{
-    //object destructuring is used so that we dont have to write req.body.title
-    const {title,startDate,endDate,progress,priority}=req.body;
-    
-    if(!title || !startDate || !endDate || !progress || !priority) //validation to check that all data are there.
-    {
-        return res.status(422).json({error:"Add data in fields"});
-    } 
-    try{
-        const titleExist = await Task.findOne({title:title});//Use this to find the same value is available in the database or not
-        if(titleExist){ // is title already available or not
-            return res.status(422).json({error:"Already exist"});
-        }
-        const task = new Task({title,startDate,endDate,progress,priority}); //storing the data which we got from the client and save it
-        const taskAdd  = await task.save();
-        if(taskAdd){ // task is saved or not
-            res.status(201).json({message:"Task entered successfuly"});
-        }
-        else{
-            res.status(500).json({error:"Failed to enter the task"});
-        }
-    }
-    catch(err){
-        console.log(err);
-    }
-});
-
+router.post('/addTask',addTaskMiddleWare,(req,res)=>{
+    console.log('Task Added successfully');
+    //res.send(req.list);
+})
 
 module.exports = router;
 
@@ -51,13 +25,7 @@ router.post('/addTask',(req,res)=>{
     res.send("add Task page"); 
     res.json({tasks:req.body}); //to show the response data in json type
 });
-{ // body of the json raw data
-    "title": "Designing a component",
-    "startDate": "2021-07-03",
-    "endDate": "2021-07-02",
-    "progress": "20",
-    "priority": "High"
-}
+
 */
 
 /* Using Promises 
@@ -111,3 +79,4 @@ router.post('/addTask',(req,res)=>{
     }
 });
 */
+
